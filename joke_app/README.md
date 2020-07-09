@@ -48,6 +48,21 @@ Exemple d’un appel :
         "id": 48,
         "error": false
     }
+Exemple single:
+    {
+        "category": "Miscellaneous",
+        "type": "single",
+        "flags": {
+            "nsfw": false,
+            "religious": true,
+            "political": false,
+            "racist": false,
+            "sexist": false
+        },
+        "joke": "How do you make holy water? You freeze it and drill holes in it.",
+        "id": 205,
+        "error": false
+    }
 
 L’api ne nécessite pas d'inscription ni de token.
 

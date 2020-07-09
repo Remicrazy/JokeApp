@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:joke_app/addjoke.dart';
-import 'package:joke_app/listcard.dart';
+import 'package:joke_app/home.dart';
+import 'package:joke_app/joke.dart';
+import 'package:joke_app/jokeDatabase.dart';
+import 'package:joke_app/jokeNetwork.dart';
 
 void main() {
   runApp(MyApp());
@@ -30,7 +32,6 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
   int _currentIndex = 0;
   final List<Widget> _children = [
     MyHomePage(),
-    AddJoke(),
   ];
   void onTappedBar(int index) {
     setState(() {
