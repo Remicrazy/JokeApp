@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:joke_app/joke.dart';
 import 'package:joke_app/jokeDatabase.dart';
 
@@ -18,6 +17,11 @@ class JokesListViewState extends State<JokesListView> {
     setState(() {
       data.add(aJoke);
     });
+  }
+
+  _deleteJoke(String anId) async {
+    var whoJoke = anId;
+    await JokesDatabase.instance.deleteJoke(whoJoke);
   }
 
   @override
@@ -37,44 +41,51 @@ class JokesListViewState extends State<JokesListView> {
   }
 
   Future<List<Joke>> _fetchJokes() async {
-    final jokesListAPIUrl = 'https://sv443.net/jokeapi/v2/joke/Any';
-    final response = await http.get(jokesListAPIUrl);
-    if (response.statusCode == 200) {
-      List jsonResponse = json.decode(response.body);
-      List<Joke> jokesDBList = await JokesDatabase.instance.jokes();
-      jsonResponse =
-          jsonResponse.map((joke) => new Joke.fromJson(joke)).toList();
-      jsonResponse.addAll(jokesDBList);
-      return jsonResponse;
-    } else {
-      throw Exception('Failed to load Joke from API');
-    }
+    List<Joke> jokesDBList = await JokesDatabase.instance.jokes();
+    return jokesDBList;
   }
 
   ListView _convertToJokesListView(data) {
     return ListView.builder(
         itemCount: data.length,
         itemBuilder: (context, index) {
-          return _title(
-              data[index].id, data[index].category, Icons.message, context);
+          if (data[index].joke == null) {
+            return _title(data[index].setup, data[index].delivery,
+                data[index].id, Icons.message, context);
+          } else {
+            return _title(data[index].joke, data[index].category,
+                data[index].id, Icons.message, context);
+          }
         });
   }
 
-  Card _title(
-          String title, int subtitle, IconData icon, BuildContext context) =>
+  Card _title(String title, String subtitle, String id, IconData icon,
+          BuildContext context) =>
       Card(
-        child: ListTile(
-          title: Text(title,
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 20,
-              )),
-          subtitle: Text(subtitle.toString()),
-          trailing: Icon(Icons.more_vert),
-          leading: Icon(
-            icon,
-            color: Colors.blue[500],
-          ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            ListTile(
+              title: Text(title),
+              subtitle: Text(subtitle),
+              leading: Icon(
+                icon,
+                color: Colors.blue[500],
+              ),
+            ),
+            ButtonBar(
+              children: <Widget>[
+                FlatButton(
+                    color: Colors.red,
+                    textColor: Colors.black,
+                    onPressed: () {
+                      _deleteJoke(id);
+                      setState(() {});
+                    },
+                    child: Text('Delete'))
+              ],
+            )
+          ],
         ),
       );
 }

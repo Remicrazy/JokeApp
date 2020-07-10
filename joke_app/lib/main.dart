@@ -3,6 +3,7 @@ import 'package:joke_app/home.dart';
 import 'package:joke_app/joke.dart';
 import 'package:joke_app/jokeDatabase.dart';
 import 'package:joke_app/jokeNetwork.dart';
+import 'package:joke_app/jokeAPI.dart';
 
 void main() {
   runApp(MyApp());
@@ -31,7 +32,8 @@ class MyBottomNavigationBar extends StatefulWidget {
 class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
   int _currentIndex = 0;
   final List<Widget> _children = [
-    MyHomePage(),
+    MyAPIJoke(),
+    MyListPage(),
   ];
   void onTappedBar(int index) {
     setState(() {

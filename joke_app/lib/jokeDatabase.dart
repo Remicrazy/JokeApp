@@ -19,7 +19,8 @@ class JokesDatabase {
     final database = openDatabase(
       join(await getDatabasesPath(), 'jokes_database.db'),
       onCreate: (db, version) {
-        return db.execute("CREATE TABLE jokes(...)");
+        return db.execute(
+            "CREATE TABLE jokes(uniqueId INTEGER PRIMARY KEY AUTOINCREMENT,id TEXT, category TEXT, joke TEXT, setup TEXT, delivery TEXT)");
       },
       version: 1,
     );
@@ -41,12 +42,11 @@ class JokesDatabase {
         joke: maps[i]['joke'],
         setup: maps[i]['setup'],
         delivery: maps[i]['delivery'],
-        flags: maps[i]['flags'],
       );
     });
   }
 
-  Future<void> deleteJoke(int id) async {
+  Future<void> deleteJoke(String id) async {
     final db = await instance.database;
     await db.delete(
       'jokes',
