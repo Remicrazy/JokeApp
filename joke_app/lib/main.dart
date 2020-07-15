@@ -49,9 +49,10 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
         onTap: onTappedBar,
         currentIndex: _currentIndex,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home')),
           BottomNavigationBarItem(
-              icon: Icon(Icons.add_comment), title: Text('Add')),
+              icon: Icon(Icons.short_text), title: Text('Joke')),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.list), title: Text('List Jokes')),
         ],
       ),
     );
